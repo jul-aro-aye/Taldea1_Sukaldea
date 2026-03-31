@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.Scene?>
+<?import javafx.scene.Parent?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<?scenebuilder-stylesheet src="/org/example/sukaldea/css/estilos.css"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane prefHeight="600.0" prefWidth="900.0"
+            style="-fx-background-color: #3F7AE0;"
+            xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="kontrola.LoginController">
+
+    <center>
+        <VBox alignment="CENTER" spacing="15"
+              maxWidth="350"
+              maxHeight="300"
+              style="-fx-background-color: #ffffff;
+                     -fx-background-radius: 15;
+                     -fx-border-radius: 15;
+                     -fx-padding: 25 40 25 40;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10,0,0,0);">
+
+            <children>
+
+
+                <Label text="JAUS" style="-fx-text-fill: #3F7AE0; -fx-font-weight: bold;">
+                    <font>
+                        <Font size="28"/>
+                    </font>
+                </Label>
+
+
+                <TextField fx:id="txtErabiltzailea"
+                           promptText="Erabiltzailea"
+                           prefWidth="220"
+                           style="-fx-background-radius: 5;
+                                  -fx-border-radius: 5;
+                                  -fx-border-color: #cccccc;"/>
+
+
+                <PasswordField fx:id="txtPasahitza"
+                               promptText="Pasahitza"
+                               prefWidth="220"
+                               style="-fx-background-radius: 5;
+                                      -fx-border-radius: 5;
+                                      -fx-border-color: #cccccc;"/>
+
+
+                <Button fx:id="btnSaioaHasi"
+                        text="Saioa Hasi"
+                        prefWidth="150"
+                        onAction="#saioaHasi"
+                        style="-fx-background-color: #3F7AE0;
+                               -fx-text-fill: white;
+                               -fx-background-radius: 5;
+                               -fx-padding: 8 20;"/>
+
+            </children>
+
+        </VBox>
+    </center>
+
+</BorderPane>

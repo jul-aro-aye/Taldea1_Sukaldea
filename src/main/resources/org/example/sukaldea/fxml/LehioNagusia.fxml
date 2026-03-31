@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.Scene?>
+<?import javafx.scene.Parent?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<?scenebuilder-stylesheet src="/org/example/sukaldea/css/estilos.css"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="kontrola.LehioNagusiaController"
+            style="-fx-background-color: #f5f5f5;">
+
+    <!-- Top: Menu Bar -->
+    <top>
+        <VBox style="-fx-background-color: #2c3e50; -fx-padding: 10;">
+            <children>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <children>
+                        <Label text="JAUS - Leiho Nagusia" style="-fx-text-fill: white; -fx-font-size: 18; -fx-font-weight: bold;"/>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Label fx:id="erabiltzaileLabel" text="" style="-fx-text-fill: #f1c40f; -fx-font-size: 15; -fx-font-weight: bold;"/>
+                        <Label fx:id="orduLabel" text="--:--:--" style="-fx-text-fill: white; -fx-font-size: 16;"/>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </top>
+
+    <!-- Left eliminado: usaremos pestañas en el centro -->
+
+    <!-- Center: TabPane con Komandak y Produktuak -->
+    <center>
+        <TabPane tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab text="Eskariak">
+                    <content>
+                        <BorderPane>
+                            <top>
+                                <HBox alignment="CENTER_RIGHT" style="-fx-padding: 10 20 0 20;">
+                                    <children>
+                                        <Button text="Ezabatu hautatua" onAction="#ezabatuEskaera" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 5; -fx-padding: 6 14;"/>
+                                    </children>
+                                </HBox>
+                            </top>
+                            <center>
+                                <StackPane>
+                                    <padding>
+                                        <Insets top="10" right="20" bottom="20" left="20"/>
+                                    </padding>
+                                    <children>
+                                        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="ALWAYS" style="-fx-background-color: transparent;">
+                                            <content>
+                                                <!-- Rejilla de comandas: 2 columnas x 4 filas (8 visibles aprox.) -->
+                                                <FlowPane fx:id="komandaGrid" hgap="20" vgap="20" prefWrapLength="800" alignment="CENTER" style="-fx-background-color: white; -fx-padding: 20;">
+                                                    <!-- Se llena desde el controlador -->
+                                                </FlowPane>
+                                            </content>
+                                        </ScrollPane>
+                                    </children>
+                                </StackPane>
+                            </center>
+                        </BorderPane>
+                    </content>
+                </Tab>
+                <Tab text="Produktuak">
+                    <content>
+                        <BorderPane>
+                            <top>
+                                <VBox style="-fx-padding: 15; -fx-spacing: 10; -fx-background-color: #ffffff;">
+                                    <children>
+                                        <Label text="Produktuak kudeatu" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                                        <HBox spacing="15" alignment="CENTER_LEFT">
+                                            <children>
+                                                <Label text="Kategoria:" style="-fx-font-size: 12; -fx-text-fill: #7f8c8d;"/>
+                                                <ComboBox fx:id="kategoriaFiltro" promptText="Guztiak" prefWidth="180" onAction="#aplikatuFiltroa" style="-fx-font-size: 12;"/>
+                                                <Region HBox.hgrow="ALWAYS" minWidth="30"/>
+                                                <Button text="Produktu berria" onAction="#irekiProduktuaModal" style="-fx-background-color: #3F7AE0; -fx-text-fill: white; -fx-background-radius: 5; -fx-padding: 8 16;"/>
+                                                <Button text="Ezabatu hautatzea" onAction="#ezabatuProduktua" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 5; -fx-padding: 8 16;"/>
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                            </top>
+                            <center>
+                                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="ALWAYS" style="-fx-background-color: #f5f5f5;">
+                                    <content>
+                                        <FlowPane fx:id="produktuaGrid" hgap="15" vgap="15" prefWrapLength="1000" alignment="CENTER" style="-fx-background-color: #f5f5f5; -fx-padding: 20 40 20 40;">
+                                            <!-- Se llena desde el controlador con botones -->
+                                        </FlowPane>
+                                    </content>
+                                </ScrollPane>
+                            </center>
+                        </BorderPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </center>
+
+</BorderPane>
