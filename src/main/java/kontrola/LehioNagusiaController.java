@@ -28,11 +28,8 @@ import javafx.animation.KeyFrame;
 import javafx.util.Duration;
 import javafx.application.Platform;
 import java.time.LocalTime;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import DatuBasea.ProduktuaDAO;
 import DatuBasea.KategoriaDAO;
 import DatuBasea.OsagaiaDAO;
@@ -42,7 +39,6 @@ import model.Kategoria;
 import model.Osagaia;
 import model.ProduktuOsagaia;
 import model.Eskaera;
-import model.EskaeraItem;
 
 public class LehioNagusiaController {
     // Saioa hasi duen erabiltzailearen izena gordetzeko eremua
@@ -74,7 +70,6 @@ public class LehioNagusiaController {
     private Integer hautatuEskaeraId = null;
 
     private static final DateTimeFormatter ORDU_FMT = DateTimeFormatter.ofPattern("HH:mm:ss");
-    private static final DateTimeFormatter ESKAERA_FMT = DateTimeFormatter.ofPattern("HH:mm");
     private static final String ESTILO_TARJETA_BASE = "-fx-background-color: #ffffff;" +
             "-fx-border-color: #dcdcdc;" +
             "-fx-border-radius: 8;" +
@@ -88,7 +83,6 @@ public class LehioNagusiaController {
             "-fx-effect: dropshadow(gaussian, rgba(63,122,224,0.3), 8,0,0,2);" +
             "-fx-padding: 10;";
     private int azkenEskaeraId = 0;
-    private final Map<Integer, String> eskaeraEgoerak = new HashMap<>();
 
     @FXML
     private void initialize() {
@@ -124,13 +118,14 @@ public class LehioNagusiaController {
 
     // Refactor: Usar KomandaTxartelaFabrika para crear tarjetas de pedidos
     private VBox sortuKomandaKarta(Eskaera eskaera) {
-        return KomandaTxartelaFabrika.sortu(eskaera, eskaeraEgoerak, new KomandaTxartelaFabrika.KomandaTxartelaListener() {
+        return KomandaTxartelaFabrika.sortu(eskaera, new KomandaTxartelaFabrika.KomandaTxartelaListener() {
             @Override
-            public void onEgoeraAldatu(int eskaeraId, String egoera, Label egoeraLbl) {
-                eguneratuEgoeraSukaldea(eskaeraId, egoera, egoeraLbl);
-                if ("Prest".equals(egoera)) {
+            public void onProduktuaEgoeraAldatu(int eskaeraId, int eskaeraProduktuaId, String egoera) {
+                String eskaeraEgoera = eskaeraDAO.eguneratuEskaeraProduktuaEgoera(eskaeraProduktuaId, egoera);
+                if ("eginda".equals(eskaeraEgoera)) {
                     erakutsiNotifikazioa("Eskaera #" + eskaeraId + " prest");
                 }
+                kargatuEskaerak();
             }
             @Override
             public void onHautatu(int eskaeraId, VBox card) {
@@ -185,10 +180,6 @@ public class LehioNagusiaController {
         hautatuEskaeraId = null;
         komandaGrid.getChildren().clear();
         for (Eskaera eskaera : eskaerak) {
-            String uiEgoera = mapSukaldeaEgoeraUI(eskaera.getSukaldeaEgoera());
-            if (uiEgoera != null) {
-                eskaeraEgoerak.put(eskaera.getId(), uiEgoera);
-            }
             komandaGrid.getChildren().add(sortuKomandaKarta(eskaera));
         }
     }
@@ -200,54 +191,6 @@ public class LehioNagusiaController {
             azkenEskaeraId = azkena;
         }
         kargatuEskaerak();
-    }
-
-    private void eguneratuEgoeraSukaldea(int eskaeraId, String egoera, Label egoeraLbl) {
-        String dbEgoera = mapSukaldeaEgoeraDB(egoera);
-        if (dbEgoera != null) {
-            eskaeraDAO.eguneratuSukaldeaEgoera(eskaeraId, dbEgoera);
-        }
-        eskaeraEgoerak.put(eskaeraId, egoera);
-        if (egoeraLbl != null) {
-            egoeraLbl.setText("Egoera: " + egoera);
-            eguneratuEgoeraEstiloa(egoeraLbl, egoera);
-        }
-    }
-
-    private String mapSukaldeaEgoeraUI(String dbEgoera) {
-        if (dbEgoera == null) {
-            return "Zain";
-        }
-        return switch (dbEgoera) {
-            case "zain" -> "Zain";
-            case "hasi" -> "Prestatzen";
-            case "prest" -> "Prest";
-            default -> "Zain";
-        };
-    }
-
-    private String mapSukaldeaEgoeraDB(String uiEgoera) {
-        if (uiEgoera == null) {
-            return null;
-        }
-        return switch (uiEgoera) {
-            case "Zain" -> "zain";
-            case "Prestatzen" -> "hasi";
-            case "Prest" -> "prest";
-            default -> null;
-        };
-    }
-
-
-    private void eguneratuEgoeraEstiloa(Label egoeraLbl, String egoera) {
-        egoeraLbl.getStyleClass().removeAll("egoera-label", "egoera-label-prestatzen", "egoera-label-prest");
-        if ("Prestatzen".equals(egoera)) {
-            egoeraLbl.getStyleClass().add("egoera-label-prestatzen");
-        } else if ("Prest".equals(egoera)) {
-            egoeraLbl.getStyleClass().add("egoera-label-prest");
-        } else {
-            egoeraLbl.getStyleClass().add("egoera-label");
-        }
     }
 
     private void erakutsiNotifikazioa(String mezua) {

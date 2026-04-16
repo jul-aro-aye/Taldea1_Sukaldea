@@ -77,6 +77,13 @@
     -fx-font-size: 12px;
     -fx-text-fill: #2c3e50;
 }
+.eskaera-item-box {
+    -fx-background-color: #f8fafc;
+    -fx-background-radius: 6;
+    -fx-padding: 6;
+    -fx-border-color: #e5e7eb;
+    -fx-border-radius: 6;
+}
 .produktuak-scroll {
     -fx-background-color: transparent;
 }
@@ -84,6 +91,16 @@
     -fx-font-size: 12px;
     -fx-font-weight: bold;
     -fx-text-fill: #7f8c8d;
+}
+.item-egoera-label {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+.bidalita-btn {
+    -fx-background-color: #64748b;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-padding: 4 12;
 }
 .hasi-btn {
     -fx-background-color: #f39c12;
